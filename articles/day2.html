@@ -75,6 +75,8 @@
 		    やってみたのだが、Emacsは正直バイナリを編集しにくい。とりあえずテキストで作った16進数をバイナリに変換する
 		    方式でやってみよう。</p>
 
+		  <p>あと、このサイトでは全ての作業を<strong>Debian/sid</strong>で行っていく。もちろんだいたいの作業は他のLinuxのディストリビューションでも出来るのではないかと思う。</p>
+
 		  <h2>nhexl-mode</h2>
 		  <p>Emacsのデフォルトのバイナリエディタ(hexl-mode)は、ほぼソース表示が目的で編集ができないので<strong>nhexl-mode</strong>を
 		    ELPA経由でインストールする。これはEmacs-24以降ならば特に手こずることなくインストールできるはずだ。</p>
@@ -83,8 +85,8 @@
 		  <pre>M-x package-install nhexl-mode</pre>
 
 		  <h2>helloos.txt</h2>
-		  <p>愚直に以下のようなテキストを用意する（頭が悪い方法だ…）</p>
-		  <p>全部で168行ある。こいつを<strong>helloos.txt</strong>という名前で保存する。</p>
+		  <p>愚直に以下のようなテキストを用意する（頭が悪い方法だ…）。
+		    全部で168行ある。こいつを<strong>helloos.txt</strong>という名前で保存する。</p>
 
                   <a data-toggle="collapse" data-parent="#accordion" href="#collapse" class="btn btn-success">
                     クリックして展開
@@ -275,6 +277,20 @@ F0 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00
 
 		  <p>というようなことをやっている。まあ、そんなことをしなくても<a href = "http://directory.fsf.org/wiki/Ghex#tab=Overview"><strong>GHex</strong></a>のようなバイナリエディタを使えば良さそうなものであるが…</p>
 		  <p>後は出来上がったファイルをEmacsやGHexなどのバイナリエディタで開いて合ってるかどうか確かめるとよさそうだ。</p>
+
+		  <h2>QEMUでブートさせてみる</h2>
+		  <p>このバイナリはそのまま起動できない。ファイルの形式は<a href = "https://ja.wikipedia.org/wiki/File_Allocation_Table"><strong>FAT12</strong></a>。
+		    そもそもLinuxで言うところの<a href = "https://www.gnu.org/software/grub/"><strong>GRUB</strong></a>がやる部分をわたしたちは書いたのだ。</p>
+		  <p>ちなみにQemuは「ｷｭﾑ」と発音するのが正しそうだ。</p>
+
+		  <p>このバイナリでブートするための仮想環境を用意する</p>
+		  <pre># apt-get install qemu qemu-kvm</pre>
+
+		  <p>入ったらそれを以下のコマンドで起動する</p>
+		  <pre>$ qemu-system-i386 -fda helloos.img</pre>
+
+		  <p>起動しました</p>
+		  <img src="../images/day2-qemu.png" class="img-thumbnail img-responsive">
 
 		  <!-- END -->
 		</div>
