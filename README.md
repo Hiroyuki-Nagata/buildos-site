@@ -19,7 +19,7 @@ $ git ftp push -s service
 ```
 
 * FYI
-    * I'm using [Honoka|https://github.com/windyakin/Honoka]
+    * I'm using [Honoka](https://github.com/windyakin/Honoka)
 
 ```
 $ wget https://github.com/windyakin/Honoka/releases/download/v3.3.6-a/bootstrap-honoka-3.3.6-a-dist.zip

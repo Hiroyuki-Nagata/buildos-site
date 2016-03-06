@@ -25,7 +25,7 @@
       <div class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
 	  <div class="navbar-header">
-            <a href="/" class="navbar-brand">OS自作入門メモ</a>
+            <a href="../index.html" class="navbar-brand">OS自作入門メモ</a>
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -34,15 +34,15 @@
 
 	    <div class="navbar-collapse collapse" id="navbar-main">
 	      <ul class="nav navbar-nav">
-		<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
-		<!-- <\!-- OS自作入門 -\-> -->
-		<!-- <ins class="adsbygoogle" -->
-		<!--      style="display:inline-block;width:728px;height:15px" -->
-		<!--      data-ad-client="ca-pub-9555568254794680" -->
-		<!--      data-ad-slot="9016409597"></ins> -->
-		<!-- <script> -->
-		<!--   (adsbygoogle = window.adsbygoogle || []).push({}); -->
-		<!-- </script> -->
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<!-- OS自作入門 -->
+		<ins class="adsbygoogle"
+		     style="display:inline-block;width:728px;height:15px"
+		     data-ad-client="ca-pub-9555568254794680"
+		     data-ad-slot="9016409597"></ins>
+		<script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
 	      </ul>
 	    </div>
 	  </div>
@@ -59,13 +59,45 @@
             <div class="bs-component">
               <div class="panel panel-primary">
 		<div class="panel-heading">
-		  <h3 class="panel-title"><strong>記事一覧<strong></h3>
+		  <h3 class="panel-title"><strong>１日目</strong> このサイトの構築 <small>2016/03/05</small></h3>
 		</div>
-		<div class="panel-body list-group">
-		  <a href = "./articles/day1.html" class = "list-group-item"><strong>１日目</strong> このサイトの構築 </a>
-		  <!-- <a href = "./articles/day2.html" class = "list-group-item"><strong>２日目</strong> </a> -->
-		  <!-- <a href = "./articles/day3.html" class = "list-group-item"><strong>３日目</strong> </a> -->
-		  <!-- <a href = "./articles/day4.html" class = "list-group-item"><strong>４日目</strong> </a> -->
+
+
+		<div class="panel-body">
+		  <!-- START -->
+
+		  <h2>はじめに</h2>
+		  <p>OS自作入門が何かということについてはググったほうが早いだろう。</p>
+
+		  <h3>WEBサーバ</h3>
+		  <p>とりあえず、成果を記録していくためにWEBサイトを用意することにした。はてなブログはこういうたぐいのサイトには便利だが、頻繁に更新するにはレスポンスが少し重い、
+		    よって<a href = "http://www.ninja.co.jp/"><strong>忍者ツール</strong></a>でサクッと作ることにした</p>
+
+		  <h3>デザイン</h3>
+		  <p>Bootstrapで作りたかったので、<a href = "http://honokak.osaka/"><strong>Honoka</strong></a> を使用している。これで日本語が美しく表示できる。</p>
+
+		  <h3>ソース管理・展開</h3>
+		  <p><a href = "http://www.ninja.co.jp/hp/"><strong>忍者ホームページ</strong></a> はFTPでの管理となるため、若干ファイルの管理に不安がある。</p>
+		  <p>GUIでやるのはだるいので、サイト内容はGitで管理し、アップロードはコマンドで行うことにした。
+		    リポジトリはプライベートリポジトリが無料で作れる<a href = "https://bitbucket.org/"><strong>Bitbucket</strong></a> を使い、そこからのアップロードは
+		    <a href = "https://github.com/git-ftp/git-ftp"><strong>git-ftp</strong></a> を使う。完璧である。Windowsにコマンドがあるかわからないが、基本的にDebian
+		    であれば、<strong>apt-get install git-ftp</strong>で入ってくる。</p>
+
+		  <h3>展開手順</h3>
+
+		  <p>まずは秘密情報をGitのコンフィグに登録しておく。そしてリポジトリ自体プライベートなのでこれは関係者にしか見えないわけだ。</p>
+		  <pre>
+$ git config git-ftp.service.url ftp://domain.com/html/application/
+$ git config git-ftp.service.user admin
+$ git config git-ftp.service.password xxxxxxx</pre>
+
+		  <p>その後は一度<strong>git ftp init</strong>を打ち込めば、あとはソースをcommit&pushをしつつ変更点のみをサイトに更新していけるわけだ。戻したいと思った場合はGitの履歴をそこまで戻せば良い。</p>
+		  <pre>
+$ git ftp init -s service
+$ git ftp push -s service</pre>
+
+		  <p>さあ、これで１日めは終了。</p>
+		  <!-- END -->
 		</div>
               </div>
             </div>
