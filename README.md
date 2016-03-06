@@ -17,3 +17,12 @@ $ git config git-ftp.service.password xxxxxxx
 $ git ftp init -s service
 $ git ftp push -s service
 ```
+
+* FYI
+    * I'm using [Honoka|https://github.com/windyakin/Honoka]
+
+```
+$ wget https://github.com/windyakin/Honoka/releases/download/v3.3.6-a/bootstrap-honoka-3.3.6-a-dist.zip
+$ unzip bootstrap-honoka-3.3.6-a-dist.zip
+$ cp -r bootstrap-honoka-3.3.6-a-dist/* .
+```
