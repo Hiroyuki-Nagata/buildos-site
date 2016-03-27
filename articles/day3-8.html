@@ -81,6 +81,7 @@
 		    把握していこう</p>
 
 		  <p>大まかには</p>
+		  <h2>20GOの内容</h2>
 		  <table class="table table-striped table-hover" border = "1">
 		    <thead>
 		      <tr>
@@ -91,167 +92,178 @@
 		    </thead>
 		    <tbody>
 		      <tr>
-			<td align="left">nask</td>
-			<td align="left">独自アセンブラ(.nas -&gt; .o)</td>
-			<td align="center">go_lib, drv_osa, drv_stdc, g01libc0</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/toolstdc/nask.c">nask</a></td>
+			<td align="left">独自アセンブラ： nasファイルからオブジェクトファイルへの変換を行う (.nas -&gt; .o)<br>
+			  メイン関数は <a href = "https://github.com/Hiroyuki-Nagata/osask/blob/goset006/20GO/toolstdc/nask.c"> 20GO/toolstdc/nask.c </a> 以下にある<br>
+			  依存先は
+			  <a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/nasklib"> 20GO/nasklib </a>と
+			  <a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/go_lib"> 20GO/golib </a>
+			</td>
+			<td align="center">go_lib, nasklib</td>
 		      </tr>
 		      <tr>
 			<td align="left">aska</td>
-			<td align="left">独自アセンブラ(.ask -&gt; .asm)</td>
+			<td align="left">独自アセンブラ(.ask -&gt; .asm)<br>
+			  20GOの段階では開発されていない</td>
 			<td align="center">なし(C++)</td>
 		      </tr>
 		      <tr>
-			<td align="left">naskcnv0</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/blob/goset006/20GO/toolstdc/naskcnv0.c">naskcnv0</a></td>
 			<td align="left">アセンブラの下請け(.asm -&gt; .nas)</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
-			<td align="left">gas2nask</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/toolstdc/gas2nask.c">gas2nask</a></td>
 			<td align="left">GNU Assemblerからnaskに変換</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
-			<td align="left">go_lib</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/go_lib">go_lib</a></td>
 			<td align="left">libc相当のライブラリ(システムやOSに依存しない)</td>
 			<td align="center">なし</td>
 		      </tr>
 		      <tr>
-			<td align="left">golibc</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/golibc">golibc</a></td>
 			<td align="left">go_libと同じものと思われる(削除したい)</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
-			<td align="left">drv_osa</td>
-			<td align="left">?</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/drv_osa">drv_osa</a></td>
+			<td align="left">役割がよくわからない</td>
 			<td align="center">なし</td>
 		      </tr>
 		      <tr>
-			<td align="left">drv_stdc</td>
-			<td align="left">?</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/drv_stdc">drv_stdc</a></td>
+			<td align="left">役割がよくわからない</td>
 			<td align="center">なし</td>
 		      </tr>
 		      <tr>
-			<td align="left">drv_w32</td>
-			<td align="left">?</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/drv_w32">drv_w32</a></td>
+			<td align="left">役割がよくわからない</td>
 			<td align="center">なし</td>
 		      </tr>
 		      <tr>
-			<td align="left">w32clibc</td>
-			<td align="left">Windowsのみに依存するライブラリ</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/w32clibc">w32clibc</a></td>
+			<td align="left">Windowsのみに依存するライブラリ？初期はそのような必要性があったのだろうか？</td>
 			<td align="center">なし</td>
 		      </tr>
 		      <tr>
 			<td align="left">akusA</td>
-			<td align="left">askaの逆アセンブラを行う</td>
+			<td align="left">askaの逆アセンブラを行う、20GOの段階では開発されていない</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">bim2g01</td>
-			<td align="left">.g01用リンカ</td>
+			<td align="left">.g01用リンカ、20GOの段階では開発されていない</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">bim2hrb</td>
-			<td align="left">.hrb用リンカ</td>
+			<td align="left">.hrb用リンカ、20GOの段階では開発されていない</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
-			<td align="left">obj2bim</td>
-			<td align="left">OSASK/.hrb/.g01共用リンカ</td>
-			<td align="center">調査中</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/drv_osa/obj2bim.c">obj2bim</a></td>
+			<td align="left">OSASK/.hrb/.g01共用リンカ、drv_osaに格納されてる</td>
+			<td align="center">drv_osa</td>
 		      </tr>
 		      <tr>
 			<td align="left">bin2obj</td>
-			<td align="left">ファイルの.obj化(char配列化)</td>
+			<td align="left">ファイルの.obj化(char配列化)、20GOの段階では開発されていない</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">bin2ucc</td>
-			<td align="left">ファイルのCソース化(char配列化)</td>
+			<td align="left">ファイルのCソース化(char配列化)、20GOの段階では開発されていない</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">cpy</td>
-			<td align="left">aska形式のcp相当コマンドか</td>
+			<td align="left">aska形式のcp相当コマンド、20GOの段階では開発されていない</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">cpyc</td>
-			<td align="left">C言語で書き直されたcp相当コマンドか</td>
+			<td align="left">C言語で書き直されたcp相当コマンド、20GOの段階では開発されていない</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">doscmd</td>
-			<td align="left">DOSからmakeなどのコマンド実行</td>
+			<td align="left">DOSからmakeなどのコマンド実行、20GOの段階では開発されていない</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
-			<td align="left">funcs</td>
-			<td align="left">分割コンパイルのためにソースコードおいてる</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/funcs">funcs</a></td>
+			<td align="left">分割コンパイルのためのソースコードを格納している<br>
+			しかし、実際はこのような方式を取るべきではなく、ライブラリを作るべきである。</td>
 			<td align="center">なし</td>
 		      </tr>
 		      <tr>
 			<td align="left">g01libc0</td>
-			<td align="left">ブートストラップ的コード</td>
+			<td align="left">ブートストラップ的コード、なぜこのような形式なのかよくわからない。20GOの段階では開発されていない。</td>
 			<td align="center">なし</td>
 		      </tr>
 		      <tr>
 			<td align="left">g01libc1</td>
-			<td align="left">guigui01.hにあるソースの実装</td>
+			<td align="left">guigui01.hにあるソースの実装、20GOの段階では開発されていない。</td>
 			<td align="center">なし</td>
 		      </tr>
 		      <tr>
 			<td align="left">gg00libc</td>
-			<td align="left">「guigui00仕様」に依存するライブラリ</td>
+			<td align="left">「guigui00仕様」に依存するライブラリ、20GOの段階では開発されていない。</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">golib00</td>
-			<td align="left">「golib00を.g01化したもの」とある、不明</td>
+			<td align="left">「golib00を.g01化したもの」とある、不明、20GOの段階では開発されていない。</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">hrblib0a</td>
-			<td align="left">はりぼてOSの将来機能用ソース・重要度低し</td>
+			<td align="left">はりぼてOSの将来機能用ソース・重要度低し、20GOの段階では開発されていない。</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">imgtol</td>
-			<td align="left">ディスクイメージ操作用ツール</td>
+			<td align="left">ディスクイメージ操作用ツール、20GOの段階では開発されていない。</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
-			<td align="left">include</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/include">include</td>
 			<td align="left">主にgolibのヘッダファイル</td>
 			<td align="center">なし</td>
 		      </tr>
 		      <tr>
 			<td align="left">makefont</td>
-			<td align="left">フォント構築用のツール</td>
+			<td align="left">フォント構築用のツール、20GOの段階では開発されていない。</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">mtek2org</td>
-			<td align="left">tek圧縮の解除ツール</td>
+			<td align="left">tek圧縮の解除ツール、20GOの段階では開発されていない。</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
-			<td align="left">omake</td>
-			<td align="left">?</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/omake">omake</a></td>
+			<td align="left">
+			  <a href = "http://www.emaillab.org/djb/tools/ucspi-tcp/addcr.html">addcr</a>は各々の LF (\012) の前、すなわち入力の各行末に CR (\015) を挿入します。
+			  改行コードのない最終行の行末には CR を挿入しません。
+			  delcr は入力の各行末に CR があれば、その CR を取り除きます。 改行コードのない最終行の行末にある CR は取り除きません。
+			  unix2dos や dos2unix のようなプログラムの中には長い行や空行(nulls)に対して問題を起すものもあります。addcr と delcr は長い行や空行で問題を起しません。</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">osalink1</td>
-			<td align="left">たぶんリンカー(ld相当)</td>
+			<td align="left">たぶんリンカー(ld相当)、20GOの段階では開発されていない。</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
 			<td align="left">rjcg01</td>
-			<td align="left">.g01ファイルにrjcをかける</td>
+			<td align="left">.g01ファイルにrjcをかける、20GOの段階では開発されていない。</td>
 			<td align="center">調査中</td>
 		      </tr>
 		      <tr>
-			<td align="left">sjisconv</td>
+			<td align="left"><a href = "https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO/toolstdc/sjisconv.c">sjisconv</a></td>
 			<td align="left">ソースからSJISコードを取り除く</td>
 			<td align="center">調査中</td>
 		      </tr>
@@ -267,12 +279,13 @@
 		      </tr>
 		      <tr>
 			<td align="left">z_tools</td>
-			<td align="left">ツール置き場、automake使っているのでいらない</td>
+			<td align="left">ツール置き場</td>
 			<td align="center">なし</td>
 		      </tr>
 		    </tbody>
 		  </table>
 		  <p>20GOを以下に格納した<br><a href="https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO">https://github.com/Hiroyuki-Nagata/osask/tree/goset006/20GO</a></p>
+		  <p>全体のREADMEは <a href = "https://github.com/Hiroyuki-Nagata/osask/blob/goset006/20GO/readme.txt"> ここにある </a></p>
 
 		  <p>現在は別ブランチでnaskのビルドとテストを進めている</p>
 		  <p>とりあえず今日のところはここまで</p>
