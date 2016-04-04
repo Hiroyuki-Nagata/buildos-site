@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>１１−１５日目 - naskをLinuxで使えるようにする</title>
+    <title>１６日目 - naskをLinuxで使えるようにする</title>
 
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -61,7 +61,7 @@
             <div class="bs-component">
               <div class="panel panel-primary">
 		<div class="panel-heading">
-		  <h3 class="panel-title"><strong>１１−１５日目</strong> - naskをLinuxで使えるようにする <small>2016/03/28, 30, 31, 4/1, 3</small></h3>
+		  <h3 class="panel-title"><strong>１６日目</strong> - naskをLinuxで使えるようにする <small>2016/4/5</small></h3>
 		</div>
 
 
@@ -72,77 +72,10 @@
 		  <p>続きです。デバッグ作業を続けます。</p>
 
 
-		  <h2>20GOというファイルのセットについて</h2>
-		  <h3></h3>
-		  <p>20GOの中にあるファイルの中身を精査して、自分なりに注釈をつけた。</p>
-
-		  <ul>
-		    <li>これらのファイルは<strong>go_00202/go_0020o</strong>で配布されたものから取得している。これらはmingw gcc-3.2から作られた。</li>
-		    <li>それ故にこれらのソースコードはまずgcc-3.2ベースでビルドされ、それができたらセルフブートストラップされていたはずである。</li>
-		    <li>要は河合氏はmingw-gccを少し改造してgoというライブラリ群を作りたかったと思われる。</li>
-		  </ul>
-
-		  <h3>ファイル一覧</h3>
-		  <li>リポジトリに入れるべきでないものもいろいろ含んでいる</li>
-		  <li>見るべきファイルは'*'で印をつけた</li>
-
-
-		  <pre class="brush:cpp; collapse:false;" title="filelist">
-  config         : mingw gcc-3.2 からコピーされた（ビルド用の）コンフィグファイル
-  copying		 : GPL-2 文書
-  cp			 : mingw gcc-3.2 と改変されたそれの差分
-  drv_osa		 :
-  drv_stdc	     :
-  drv_w32		 :
-  funcs		     : 分割コンパイル用のソースコード（良い方法とは全く言えない）
-  gcc			 : mingw gcc-3.2のメインソースコード
-  golibc		 : Osaskのためのライブラリ
-* include		 : インクルードファイル
-  intl		     : mingw gcc-3.2からコピーされたファイル
-* libgo		     : Osaskのためのライブラリ（だいたいがC言語の基本関数の上書き、関数には'GO_'というプレフィックスがつく）
-  libiberty	     : mingw gcc-3.2からコピーされたファイル
-  libmingw	     : mingw gcc-3.2からコピーされたファイル
-* libnask		 : naskに使われるライブラリ（nasklibから名称変更した、zlibは特殊な例外なので真似しない）
-* omake		     : addcrというツール
-  osask.mk	     : Makefile、これはautomakeを使わない場合に必要だろう
-* readme.txt	 : 情報はだいたいここから取得
-  setmode.bat	 :
-* toolstdc	     : `tolset` として配布されてるもの
-  toolw32		 : ?
-  w32clibc	     : ?
-		  </pre>
-		  <p></p>
-
-		  <!-- 次の話題 -->
-		  <h2>その他の修正</h2>
-		  <h3>その他の修正</h3>
-
-
-		  <p>nask内部のポインタの扱い方</p>
-		  <li>あるポインタAとそれを保持する配列Bを宣言しておく</li>
-		  <li>AにBのあるポインタを割り付ける</li>
-		  <li>Aはインクリメントや（たまに）デクリメントを行いBで保持されたメモリ内を走り回る</li>
-
-		  <p>コード内の命名基準がひどいため、リネームをいろいろしていきたい</p>
-		  <li>スマートポインタを使った場合の書き換え方を示す、これによりfree不要になる。</li>
-
-		  <pre class="brush:cpp; collapse:false;" title="smartpointer-example">
-
-# 旧コード
-UCHAR buf[2 * 8], *bp; /* bufは適当にmallocした方がいいかも */
-...
-bp = buf;
-
-# 新コード：bufをunique_ptrで初期化しておき、bpはそのポインタとして使用する
-std::unique_ptr&lt;UCHAR[]&gt; buf(new UCHAR[2 * 8]);
-nask32bitInt* bp;
-bp = buf.get();
-		  </pre>
-
-		  <p>ビルド時フラグ指定でデバッグログが出力されるように調整した。もう少し時間をとって、バイナリを吐けるようにする必要がある。</p>
+		  <p>少しだけどやっとバイナリが吐けるようになった</p>
 <pre class="brush:cpp; collapse:false;" title="nask実演">
-$ ./nask data/01_nasfile.nas
-main(): nask argc: 2, argv:{./nask, data/01_nasfile.nas, }
+$ ./nask_functional_test.sh
+main(): nask argc: 3, argv:{./nask, data/01_nasfile.nas, data/01_nasfile.img, }
 before_nask_process(): GOLD_getsize(file): 64
 before_nask_process(): call nask...
 nask(): nask assembly source ===
@@ -150,13 +83,13 @@ nask(): nask assembly source ===
 DB 0xeb, 0x4e, 0x90, 0x48, 0x45, 0x4c, 0x4c, 0x4f
 ===
 nask(): processing assembly source: because of 'src0 < src1'
-nask(): buffered pointer bp: 819091a8
+nask(): buffered pointer bp: ea5b6838
 decoder(): in
 decoder(): *src == ';': semi-colon is used for comments
 put4b(): returned p[0-3]: 0x0f, 0x00, 0x00, 0x00
 put4b(): returned p[0-3]: 0x3b, 0x00, 0x00, 0x00
 nask(): processing assembly source: because of 'src0 < src1'
-nask(): buffered pointer bp: 819091a8
+nask(): buffered pointer bp: ea5b6838
 decoder(): in
 decoder(): research: normal format assembly
 decoder(): found mnemonic! opcode: DB
@@ -174,13 +107,18 @@ before_nask_process(): nask processed list size: 8
 before_nask_process(): call LL...
 before_nask_process(): LL processed list size: 8
 before_nask_process(): call output...
-Segmentation fault
+before_nask_process(): output processed list size: 8
+nask_main(): nask GOL_retcode: 0
+</pre>
+
+<pre class="brush:cpp; collapse:false;" title="img">
+00000000: eb4e 9048 454c 4c4f eb4e 9048 454c 4c4f  .N.HELLO.N.HELLO
 </pre>
 		  <!-- END -->
 
 		  <ul class="pager">
-		    <li><a href="./day9-10.html">前の日</a></li>
-		    <li><a href="./day16.html">次の日</a></li>
+		    <li><a href="./day11-15.html">前の日</a></li>
+		    <li><a href="#">次の日</a></li>
 		  </ul>
 		</div>
               </div>
