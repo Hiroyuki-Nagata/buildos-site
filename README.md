@@ -25,4 +25,11 @@ $ git ftp push -s service
 $ wget https://github.com/windyakin/Honoka/releases/download/v3.3.6-a/bootstrap-honoka-3.3.6-a-dist.zip
 $ unzip bootstrap-honoka-3.3.6-a-dist.zip
 $ cp -r bootstrap-honoka-3.3.6-a-dist/* .
+$ wget https://github.com/blueimp/Bootstrap-Image-Gallery/archive/v3.4.2.tar.gz
+$ tar xvf v3.4.2.tar.gz
+$ cp -r Bootstrap-Image-Gallery-3.4.2/* .
+$ mv img/* images/
+$ vim css/bootstrap-image-gallery.css
+- 	background: url(../img/loading.gif) center no-repeat;
++ 	background: url(../images/loading.gif) center no-repeat;
 ```
