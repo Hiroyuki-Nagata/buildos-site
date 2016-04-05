@@ -73,6 +73,11 @@
 		<p>
 		  <a class="btn btn-primary btn-lg" href = "./articles/day1.html">一日目へ</a>
 		</p>
+
+		<small>スクリーンショット</small>
+      		<div class="row" id="gallery">
+      		  <img alt="Qemu" src="images/day2-qemu.png">
+      		</div>
               </div>
             </div>
 	  </div>
@@ -105,5 +110,26 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/galleria-1.4.2.min.js"></script>
+    <script type="text/javascript">
+      // テーマをロード
+      Galleria.loadTheme('themes/classic/galleria.classic.min.js');
+
+      // オプション
+      option = {
+      //width:  1070,             // 幅
+      height: 457,              // 高さ
+      imageCrop: false,          // 画像のクロップ有無
+      // true：width/heightにフィットさせるように画像を切り取って表示
+      // false：画像を全体表示させるように縮小
+      transition: 'fade',       // 画像の遷移イフェクト
+      _toggleInfo: false,       // imgのalt属性を取得してキャプションとして表示
+      // true：キャプションの非表示
+      // false：キャプションの表示
+      }
+
+      // ギャラリー作成
+      Galleria.run( '#gallery', option);
+    </script>
   </body>
 </html>
