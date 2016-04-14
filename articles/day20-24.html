@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>２０ー２５日目 - naskがLinuxで動いた</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/syntaxhighlighter/shCore.css" rel="stylesheet">
+    <link href="../css/syntaxhighlighter/shThemeDefault.css" rel="stylesheet">
+    <link href="../css/overwrite.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Google Analystics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-76215716-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+
+    <!-- navbar -->
+    <header>
+      <div class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+	  <div class="navbar-header">
+            <a href="../index.html" class="navbar-brand">OS自作入門メモ</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+	    <div class="navbar-collapse collapse" id="navbar-main">
+	      <ul class="nav navbar-nav">
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<!-- OS自作入門 -->
+		<ins class="adsbygoogle"
+		     style="display:inline-block;width:728px;height:15px"
+		     data-ad-client="ca-pub-9555568254794680"
+		     data-ad-slot="9016409597"></ins>
+		<script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	      </ul>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </header>
+
+    <!-- Containers -->
+    <div class="container">
+      <div class="bs-docs-section">
+	<!-- panel -->
+	<div class="row">
+	  <div class="col-lg-12">
+            <div class="bs-component">
+              <div class="panel panel-primary">
+		<div class="panel-heading">
+		  <h3 class="panel-title"><strong>２１ー２４日目</strong> - RESBオペコードの修正 <small>2016/4/12-15</small></h3>
+		</div>
+
+
+		<div class="panel-body" id="accordion">
+		  <!-- START -->
+
+		  <h2>RESBオペコードの修正</h2>
+		  <p>RESBオペコードを使うと、naskは指定したバイト数だけ<strong>0x00</strong>で埋めてくれます</p>
+
+		  <p>主な実装部分は<a href = "https://github.com/Hiroyuki-Nagata/osask/blob/goset006/20GO/nasklib/nask.c#L2379">20GO/nasklib/nask.c#L2379</a>
+		    にあります。</p>
+		  <li>naskは'RESB'コマンドを見つけると、中間コードに'0x59'を混ぜ込みます</li>
+		  <li>その結果、バッファされたポインタを書き込む時にこのコードに到達します</li>
+
+		  <h3>マイクロコードとは？</h3>
+		  <p><a href = "http://hack.ninja-web.net/academy003-055.htm">マイクロコード</a> から引用</p>
+		  <blockquote>
+ところで、「アセンブラ言語」で書かれたコードは「機械語」
+（マシン語）に翻訳されます。
+この「機械語」がプロセッサが理解する最終形なのでしょうか？
+実は機械語は更に細かい命令に分断されます。
+これはソフトウェア開発者が意識する必要は全くありませんが、
+知識として知っておくと良いと思います。
+機械語というのは、プロセッサに取り込まれた後に、更に細か
+な命令に分けられます。
+何故、機械語よりも細かな命令に分断しなければならないのか
+というと、細かな命令に分断する事により、プロセッサ内部で
+の処理が「簡略化」出来るからです。
+簡略化出来ると何か良い事があるのでしょうか？
+
+プロセッサ内部での処理を簡略化する事により、１つ１つの命
+令の「処理を速くする」事が出来るようになります。
+つまり、１つ１つの命令を小さく、単純化する事により、それ
+ぞれの処理を単純化（＝高速化）出来るのです。
+勿論、命令を細かな物に分断してしまうので、命令数は増えて
+しまいます。
+しかし、１つ１つの命令が単純なので、より高速に行なえる命
+令を先に実行したり、複数の命令を同時に実行したりする等の
+工夫をする事が出来るようになります。
+これらの、より高速に処理が行なえるようにする工夫や仕組み
+の事を「マイクロアーキテクチャ」といいます。
+この言葉はコンピュータ雑誌等で見かけた事がある方もいらっ
+しゃるかもしれません。
+また、１つ１つの細かな命令群の事を「マイクロコード」とい
+います。
+		  </blockquote>
+
+
+		  <p>見た感じ</p>
+		  <li>buf[j++]にて、bufに入っている長さ情報をdestに入れている</li>
+		  <li>(1) たぶん'len'にあたるものが 'RESB 16' などと入力した際の 16 にあたると思うのですが…</li>
+		  <li>(2) その後何らかの繰り返し表現が出力されている</li>
+
+<pre class="brush:cpp; collapse:false;" title="nask.c#L2379">
+		if (c == 0x59) {
+			/* TIMES microcode */
+			dest0[0] = 0x59;
+			s = ifdef->expr[8];
+			k = ifdef->dat[8];
+			if (dest0 + len + k + 4 > dest1)
+				dest0 = NULL;
+			if (dest0 == NULL)
+				goto fin;
+			put4b(-1, dest0 + 1); /* 長さ不定 */
+			dest0 += 5;
+			c = 5; /* len出力 */
+			do {
+				*dest0++ = buf[j++]; // (1)
+			} while (--c);
+			do {
+				*dest0++ = *s++; // (2)
+			} while (--k);
+			continue;
+		}
+</pre>
+
+		  <!-- END -->
+
+		  <ul class="pager">
+		    <li><a href="./day17-20.html">前の日</a></li>
+		    <li><a href="#">次の日</a></li>
+		  </ul>
+		</div>
+              </div>
+            </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/syntaxhighlighter/scripts/shCore.js"></script>
+    <script src="../js/syntaxhighlighter/scripts/shBrushCpp.js"></script>
+    <script src="../js/syntaxhighlighter/scripts/shBrushBash.js"></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.config.clipboardSwf = '../js/syntaxhighlighter/scripts/clipboard.swf';
+      SyntaxHighlighter.all();
+    </script>
+  </body>
+</html>
