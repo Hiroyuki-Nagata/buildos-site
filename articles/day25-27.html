@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>２５ー２７日目 - naskの代替ツールの開発</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/syntaxhighlighter/shCore.css" rel="stylesheet">
+    <link href="../css/syntaxhighlighter/shThemeDefault.css" rel="stylesheet">
+    <link href="../css/overwrite.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Google Analystics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-76215716-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+
+    <!-- navbar -->
+    <header>
+      <div class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+	  <div class="navbar-header">
+            <a href="../index.html" class="navbar-brand">OS自作入門メモ</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+	    <div class="navbar-collapse collapse" id="navbar-main">
+	      <ul class="nav navbar-nav">
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<!-- OS自作入門 -->
+		<ins class="adsbygoogle"
+		     style="display:inline-block;width:728px;height:15px"
+		     data-ad-client="ca-pub-9555568254794680"
+		     data-ad-slot="9016409597"></ins>
+		<script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	      </ul>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </header>
+
+    <!-- Containers -->
+    <div class="container">
+      <div class="bs-docs-section">
+	<!-- panel -->
+	<div class="row">
+	  <div class="col-lg-12">
+            <div class="bs-component">
+              <div class="panel panel-primary">
+		<div class="panel-heading">
+		  <h3 class="panel-title"><strong>２５ー２７日目</strong> - naskの代替ツールの開発 <small>2016/5/11, 14, 15</small></h3>
+		</div>
+
+
+		<div class="panel-body" id="accordion">
+		  <!-- START -->
+
+		  <h2>方針転換</h2>
+		  <p>自ら修正しておきながらですが、このまま既存のnaskを修正していくのは不可能と判断し、自分独自のツールを作っていくことに決めました。</p>
+		  <p>格納先は<a href = "https://github.com/Hiroyuki-Nagata/opennask">Hiroyuki-Nagata / opennask</a>、それなりに動きます。</p>
+
+		  <h2>Parasol</h2>
+		  <p>構文解析器として、手軽なC++のツールを探したところParasolというものが見つかったので、それを使用させていただきました。</p>
+		  <p>ドキュメントは乏しいですが、それなりに思ったように動いてくれるので使いやすいです。</p>
+		  <p><a href = "http://www.awa.tohoku.ac.jp/~sanshiro/kinoko/parasol/">Parasol - 実行時文法定義のできる構文解析ライブラリ -</a></p>
+
+		  <h2>１日目の終了の時</h2>
+		  <p>ようやく憎いnaskファイルをimgファイルに変換し、実行できる時が来ました。</p>
+		  <p><s>何がnaskだ！要は構文解釈してバイナリ出しとるだけや。悪しきC言語使用者に死の裁きを…</s></p>
+
+<pre class="brush:cpp; collapse:false;" title="helloos.nas">
+; hello-os
+; TAB=4
+
+; 以下は標準的なFAT12フォーマットフロッピーディスクのための記述
+
+		DB		0xeb, 0x4e, 0x90
+		DB		"HELLOIPL"	; ブートセクタの名前を自由に書いてよい（8バイト）
+		DW		512		; 1セクタの大きさ（512にしなければいけない）
+		DB		1		; クラスタの大きさ（1セクタにしなければいけない）
+		DW		1		; FATがどこから始まるか（普通は1セクタ目からにする）
+		DB		2		; FATの個数（2にしなければいけない）
+		DW		224		; ルートディレクトリ領域の大きさ（普通は224エントリにする）
+		DW		2880		; このドライブの大きさ（2880セクタにしなければいけない）
+		DB		0xf0		; メディアのタイプ（0xf0にしなければいけない）
+		DW		9		; FAT領域の長さ（9セクタにしなければいけない）
+		DW		18		; 1トラックにいくつのセクタがあるか（18にしなければいけない）
+		DW		2		; ヘッドの数（2にしなければいけない）
+		DD		0		; パーティションを使ってないのでここは必ず0
+		DD		2880		; このドライブ大きさをもう一度書く
+		DB		0,0,0x29	; よくわからないけどこの値にしておくといいらしい
+		DD		0xffffffff	; たぶんボリュームシリアル番号
+		DB		"HELLO-OS   "	; ディスクの名前（11バイト）
+		DB		"FAT12   "	; フォーマットの名前（8バイト）
+		RESB		18		; とりあえず18バイトあけておく
+
+; プログラム本体
+
+		DB		0xb8, 0x00, 0x00, 0x8e, 0xd0, 0xbc, 0x00, 0x7c
+		DB		0x8e, 0xd8, 0x8e, 0xc0, 0xbe, 0x74, 0x7c, 0x8a
+		DB		0x04, 0x83, 0xc6, 0x01, 0x3c, 0x00, 0x74, 0x09
+		DB		0xb4, 0x0e, 0xbb, 0x0f, 0x00, 0xcd, 0x10, 0xeb
+		DB		0xee, 0xf4, 0xeb, 0xfd
+
+; メッセージ部分
+
+		DB		0x0a, 0x0a		; 改行を2つ
+		DB		"hello, world"
+		DB		0x0a			; 改行
+		DB		0
+
+		RESB		0x1fe-$			; 0x001feまでを0x00で埋める命令
+
+		DB		0x55, 0xaa
+
+; 以下はブートセクタ以外の部分の記述
+
+		DB		0xf0, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00
+		RESB		4600
+		DB		0xf0, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00
+		RESB		1469432
+</pre>
+
+		  <p>Hello, World部分は好きに変えられます。手こずらせやがって…</p>
+      		  <img alt="Finish first Day!" width="100%" src="../images/finish_first_day.png">
+
+		  <!-- END -->
+
+		  <ul class="pager">
+		    <li><a href="./day20-24.html">前の日</a></li>
+		    <li><a href="#">次の日</a></li>
+		  </ul>
+		</div>
+              </div>
+            </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/syntaxhighlighter/scripts/shCore.js"></script>
+    <script src="../js/syntaxhighlighter/scripts/shBrushCpp.js"></script>
+    <script src="../js/syntaxhighlighter/scripts/shBrushBash.js"></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.config.clipboardSwf = '../js/syntaxhighlighter/scripts/clipboard.swf';
+      SyntaxHighlighter.all();
+    </script>
+  </body>
+</html>
