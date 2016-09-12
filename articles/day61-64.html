@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>５２ー６０日目 - 簡単な算術演算の実装(harib00i) </title>
+    <title>６１ー６４日目 - CMake+Ninja環境の構築(harib00i) </title>
 
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -72,73 +72,59 @@
             <div class="bs-component">
               <div class="panel panel-primary">
 		<div class="panel-heading">
-		  <h3 class="panel-title"><strong>５２ー６０日目</strong> - 簡単な算術演算の実装(harib00i) <small>2016/7/1,2 2016/8/19-21, 27, 29-31</small></h3>
+		  <h3 class="panel-title"><strong>６１ー６４日目</strong> - CMake+Ninja環境の構築(harib00i)  <small>2016/9/6-9</small></h3>
 		</div>
 
 
 		<div class="panel-body" id="accordion">
 		  <!-- START -->
 
-		  <h2>簡単な算術演算の実装(harib00i) </h2>
+		  <h2>CMake+Ninja環境の構築 </h2>
 
-		  <h3>Math Operatorを計算する</h3>
-		  <p>以下のような文字列中の数値計算をどうすれば行えるか悩んでいた。</p>
+		  <h3>とにかく遅いAutomake</h3>
+		  <p>Windowsでlinux向けC++コードをビルドする際に困るのはそのビルドの遅さだ。msys2を使ってMakefileを生成すると、死ぬほど時間がかかる。今までの数年間はautomakeでMakefileを生成していた。けれどもその遅さは普通の人間なら気が狂うレベルの遅さなのでやってはいけないと最近思い始めた</p>
 
-		  <pre class="brush:cpp;" title="これを">
-MOV     ECX,512*1024/4</pre>
+		  <h3>Ninjaを使うべき理由</h3>
+		  <p>以下、引用</p>
 
-		  <pre class="brush:cpp;" title="これに変換したい">
-MOV     ECX,131072</pre>
+		  <blockquote>
+Ninjaは非常に軽量なビルドツールで、makeのようなほかのビルドツールと違って、他のプログラムからビルドルールを出力することを想定している。Chromiumのために開発されたのでgypが唯一の生成元だったが、CMake 2.8.8からCMakeプロジェクトをNinjaでビルドできるようになっていた。
 
-		  <h3>Tinyexpr</h3>
-		  <p>それには文字列型の計算式を評価して結果を返すライブラリが必要。とりあえず組み込みやすいやつを入れる。</p>
-		  <a href="https://github.com/codeplea/tinyexpr">https://github.com/codeplea/tinyexpr</a>
+従来、CMakeプロジェクトをWindows上でビルドする場合はMSVCかjom、mingw32-makeのようなビルドツールが使われてきたが、これらのツールは異常に遅く、あまり実用的は言いがたい感じだった。
 
-		  <h3>Tinyexpr使用例</h3>
-		  <p>CppUTestを使ってテストを書いてみた</p>
+今回Ninjaをつかうことが出来るようになったことで、特にインクリメンタルビルドがかなり病的に高速化する。例えばLLVMのような比較的大規模なプロジェクトをビルドするなら、多くの場合NinjaとCMakeの組み合わせが最速になる。makeと比べてNinjaは再帰的でないので、２，３の巨大なビルドルールを読み込んでファイルを一気に走査するという方法を取ることが出来る。</blockquote> <a href="http://d.hatena.ne.jp/mjt/20120613/p1">Ninja + CMakeの組み合わせがWindows上でも使えるように</a>
+
+		  <h3>build手順の変更</h3>
+		  <p>最終的にこんな感じに</p>
 
 		  <ul>
-		    <li>別にdouble型じゃなくても使える</li>
-		    <li><b>std::isnan</b> 便利っぽい（JavascriptのNaNと同じようなもん）</li>
+		    <li>以下の例ではmsys用、Linux/Mac/BSD用、Ninja用、そしてVisualStudio用ビルドスクリプトを生成している</li>
+		    <li>ビルドはとても早くなった！</li>
 		  </ul>
 
-		  <pre class="brush:cpp;" title="tinyexpr_suite">
-TEST(tinyexpr_suite, testNask)
-{
-     int error;
+		  <pre class="brush:bash;" title="build">
+$ mkdir build
+$ cd build
 
-     const double ecx1 = te_interp("512*1024/4", &error);
-     CHECK(!std::isnan(ecx1));
-     CHECK_EQUAL(131072, ecx1);
+# if you use msys2
+$ cmake -G "MSYS Makefiles" ..
+$ make
 
-     const double ecx2 = te_interp("512/4", &error);
-     CHECK(!std::isnan(ecx2));
-     CHECK_EQUAL(128, ecx2);
+# if you use Unix environment
+$ cmake -G "Unix Makefiles" ..
+$ make
 
-     const double dw = te_interp("8*3-1", &error);
-     CHECK(!std::isnan(dw));
-     CHECK_EQUAL(23, dw);
-}</pre>
+# if you can use Ninja
+$ cmake -G "Ninja" ..
+$ ninja
 
-		  <h3>正規表現で計算式を見つけ出して処理するぞ</h3>
-
-		  <p>これで最初やりたかった処理ができる</p>
-		  <pre class="brush:cpp;" title="tinyexpr_regex">
-     // 正規表現は、
-     // (***数字じゃない奴***)(***数字と数学記号***)(***数字じゃない奴***)
-     //
-     std::regex re("([^0-9]*)([-\\*/+0-9]*)([^0-9]*)");
-     std::smatch match;
-     if (std::regex_search(subject, match, re) && match.size() > 1) {
-          int error;
-          const int process = te_interp(match[2].str().c_str(), &error);
-          return match[1].str() + std::to_string(process) + match[3].str();
-     }</pre>
+# もしVisual Studioを使うのであれば、以下のような感じでslnファイルを生成できる。スゴイ。
+$ cmake -G "Visual Studio 14 2015 Win64" -DUSE_CPPUTEST=OFF ..</pre>
 
 		  <!-- END -->
 		  <ul class="pager">
-		    <li><a href="./day43-51.html">前の日</a></li>
-		    <li><a href="./day61-64.html">次の日</a></li>
+		    <li><a href="./day34-42.html">前の日</a></li>
+		    <li><a href="#">次の日</a></li>
 		  </ul>
 		</div>
               </div>
